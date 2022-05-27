@@ -1,6 +1,6 @@
 "use strict";
 const axios = require('axios')
-const { User, Category, FavoriteNews, NewsAPI, Comment } = require("../models/index")
+const { User, FavoriteNews, NewsAPI, Comment } = require("../models/index")
 const { readHash } = require("../helper/hashPass")
 const { createToken } = require("../helper/jwt")
 const { OAuth2Client } = require('google-auth-library');
@@ -11,10 +11,10 @@ class Controller {
     static async LoginGoogle(req, res, next) {
         try {
             const tokenGoogle = req.body.token
-            const client = new OAuth2Client("728531124702-580i65icr0hbk2sp7u31l11o2tl3er8e.apps.googleusercontent.com");
+            const client = new OAuth2Client(process.env.OAUTH);
             const ticket = await client.verifyIdToken({
                 idToken: tokenGoogle,
-                audience: "728531124702-580i65icr0hbk2sp7u31l11o2tl3er8e.apps.googleusercontent.com",
+                audience: process.env.OAUTH,
             });
             const payload = ticket.getPayload();
             const [user, created] = await User.findOrCreate({
@@ -73,16 +73,17 @@ class Controller {
     static async register(req, res, next) {
         try {
             const { email, password, username } = req.body
+
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'josuawilliams17@gmail.com',
-                    pass: 'vojyplkbnsbhcgvy'
+                    user: process.env.GMAIL,
+                    pass: process.env.PASS
                 }
             });
 
             var mailOptions = {
-                from: 'josuawilliams17@gmail.com',
+                from: process.env.GMAIL,
                 to: email,
                 subject: 'Thanks For Register To This News Website',
                 text: `Sawadikap ${username}, Welcome To Our Universe, Ini Adalah Website Anti Hoaks Silakan Bijak Dalam Membaca`,
@@ -95,6 +96,7 @@ class Controller {
                 password,
                 username
             })
+            
             const sendMail = await transporter.sendMail(mailOptions)
 
             res.status(201).json({

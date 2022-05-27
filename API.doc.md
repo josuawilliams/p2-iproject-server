@@ -9,7 +9,8 @@ List of Available Endpoints In Route:
 - `GET /weather`
 - `GET /:categories`
 - `POST /:categories/detailNews`
-- 
+
+- `GET /comments/news`
  Authentication
 - `GET /favoritesList/List`
 - `POST /favoritesNews`
