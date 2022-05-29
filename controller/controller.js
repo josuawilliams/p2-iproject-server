@@ -278,10 +278,17 @@ class Controller {
                     LinkId: url
                 })
             }
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getComment(req, res, next) {
+        try {
+            const url = req.query.url
             const showComment = await Comment.findAll({
                 where: {
                     LinkId: url,
-                    UserId: id
                 },
                 include: [User]
             })

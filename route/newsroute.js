@@ -14,6 +14,7 @@ news.get("/weather", Controller.WeatherMap)
 news.get("/:categories", Controller.CategoriesNews)
 
 news.post("/:categories/detailNews", Controller.getDetailNews)
+news.get("/comments/news", Controller.getComment)
 
 news.use(Authentication)
 news.get("/favoritesList/List", Controller.Favorite)
@@ -22,5 +23,5 @@ news.post("/favoritesNews", Controller.AddFavorites)
 
 news.post("/comments/news", Controller.comment)
 
-news.delete("/delete", AuthorizationDelete ,Controller.Delete)
+news.delete("/delete", AuthorizationDelete, Controller.Delete)
 module.exports = news
